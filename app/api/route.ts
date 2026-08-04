@@ -37,7 +37,7 @@ export async function GET() {
     return Response.json(
       {
         success: false,
-        error: error.message ?? "Something went wrong",
+        error: error instanceof Error ? error.message : "Something went wrong",
       },
       { status: 500 },
     );

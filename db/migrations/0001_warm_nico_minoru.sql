@@ -1,1 +1,1 @@
-SELECT 1;
+ALTER TABLE "players" ADD COLUMN IF NOT EXISTS "team_id" integer;
