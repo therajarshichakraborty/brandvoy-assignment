@@ -5,12 +5,8 @@ import Link from "next/link";
 import { 
   Sparkles, 
   Trophy, 
-  TrendingUp, 
-  Shield, 
   Filter, 
   ArrowRight, 
-  CheckCircle2, 
-  Users, 
   Database, 
   Zap,
   BarChart3,
@@ -24,9 +20,9 @@ export default function HomePage() {
   const [seasonMode, setSeasonMode] = useState<"all" | "recent">("all");
   const [focusArea, setFocusArea] = useState<"batting" | "bowling" | "teams" | "players">("batting");
 
-  const { data: battingLeaders, loading: battingLoading } = useBattingLeaders("runs", 10);
-  const { data: bowlingLeaders, loading: bowlingLoading } = useBowlingLeaders("wickets", 10);
-  const { data: teamsData, meta: teamsMeta } = useTeams(1, 20);
+  const { data: battingLeaders } = useBattingLeaders("runs", 10);
+  const { data: bowlingLeaders } = useBowlingLeaders("wickets", 10);
+  const { meta: teamsMeta } = useTeams(1, 20);
   const { meta: matchesMeta } = useMatches({ page: 1, limit: 1 });
 
   const topBatsman = battingLeaders?.[0];

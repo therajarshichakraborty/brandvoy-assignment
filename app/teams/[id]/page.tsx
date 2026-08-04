@@ -2,7 +2,7 @@
 
 import { use } from "react";
 import Link from "next/link";
-import { ArrowLeft, Shield, Users, Trophy } from "lucide-react";
+import { ArrowLeft, Users } from "lucide-react";
 import { useTeamDetail, usePlayers } from "@/hooks/use-api";
 
 interface TeamDetailPageProps {

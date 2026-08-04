@@ -27,7 +27,7 @@ export async function getApiDocs(): Promise<Record<string, unknown>> {
       },
     });
     return spec as Record<string, unknown>;
-  } catch (error) {
+  } catch {
     return {
       openapi: "3.0.0",
       info: {

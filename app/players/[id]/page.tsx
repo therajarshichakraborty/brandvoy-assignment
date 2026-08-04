@@ -37,7 +37,7 @@ export default function PlayerDetailPage({ params }: PlayerDetailPageProps) {
     );
   }
 
-  const player = responseData.player || responseData;
+  const player = (responseData.player ?? responseData) as import("@/hooks/use-api").PlayerDetail;
   const careerStats = responseData.careerStats;
 
   return (

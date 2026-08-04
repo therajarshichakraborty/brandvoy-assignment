@@ -9,10 +9,8 @@ import {
   BarChart3,
   Shield,
   Users,
-  Activity,
   ArrowUpRight
 } from "lucide-react";
-import { AnimatedThemeToggler } from "./animated-theme-toggler";
 
 const NAV_ITEMS = [
   { label: "Home", href: "/", icon: Home },

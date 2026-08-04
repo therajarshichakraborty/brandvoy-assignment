@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { BarChart3, Trophy, Zap, Flame, ChevronLeft, ChevronRight } from "lucide-react";
-import { useBattingLeaders, useBowlingLeaders } from "@/hooks/use-api";
+import { BarChart3, Trophy, ChevronLeft, ChevronRight } from "lucide-react";
+import { useBattingLeaders, useBowlingLeaders, BattingLeader, BowlingLeader } from "@/hooks/use-api";
 import { BattingChart } from "@/components/charts/batting-chart";
 import { BowlingChart } from "@/components/charts/bowling-chart";
 
@@ -151,7 +151,7 @@ export default function StatsPage() {
               </thead>
               <tbody className="divide-y divide-border/40">
                 {tab === "batting"
-                  ? battingData?.map((item: any, idx: number) => (
+                  ? battingData?.map((item: BattingLeader, idx: number) => (
                       <tr key={item.playerId} className="hover:bg-slate-50/60 dark:hover:bg-slate-900/40 transition-colors">
                         <td className="py-3.5 px-4 font-bold text-slate-400">
                           {(page - 1) * 10 + idx + 1}
@@ -169,7 +169,7 @@ export default function StatsPage() {
                         <td className="py-3.5 px-4 text-right text-slate-500">{item.totalFours} / {item.totalSixes}</td>
                       </tr>
                     ))
-                  : bowlingData?.map((item: any, idx: number) => (
+                  : bowlingData?.map((item: BowlingLeader, idx: number) => (
                       <tr key={item.playerId} className="hover:bg-slate-50/60 dark:hover:bg-slate-900/40 transition-colors">
                         <td className="py-3.5 px-4 font-bold text-slate-400">
                           {(page - 1) * 10 + idx + 1}

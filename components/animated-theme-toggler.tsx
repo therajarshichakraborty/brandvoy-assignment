@@ -260,7 +260,7 @@ export const AnimatedThemeToggler = ({
         );
       });
     }
-  }, [shape, fromCenter, duration, isDark, isControlled, onThemeChange]);
+  }, [shape, fromCenter, duration, isDark, isControlled, onThemeChange, setTheme]);
 
   return (
     <button

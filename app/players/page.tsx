@@ -2,14 +2,14 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Users, Search, ChevronLeft, ChevronRight, UserCheck, ArrowRight } from "lucide-react";
+import { Users, Search, ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
 import { usePlayers } from "@/hooks/use-api";
 
 export default function PlayersPage() {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
   const [role, setRole] = useState("");
-  const [country, setCountry] = useState("");
+  const [country] = useState("");
 
   const { data: players, meta, loading, error } = usePlayers({
     page,

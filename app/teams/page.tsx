@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { Shield, Search, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
+import Image from "next/image";
 import { useTeams } from "@/hooks/use-api";
 
 export default function TeamsPage() {
@@ -75,7 +76,7 @@ export default function TeamsPage() {
                   <div className="flex items-start justify-between gap-3">
                     <div className="w-12 h-12 rounded-xl bg-blue-50 dark:bg-blue-950/60 border border-blue-100 dark:border-blue-900/40 flex items-center justify-center font-extrabold text-blue-600 dark:text-blue-400 text-base">
                       {team.logoUrl ? (
-                        <img src={team.logoUrl} alt={team.abbr} className="w-8 h-8 object-contain" />
+                        <Image src={team.logoUrl as string} alt={team.abbr as string} width={32} height={32} className="object-contain" />
                       ) : (
                         team.abbr || team.title?.substring(0, 3).toUpperCase()
                       )}
