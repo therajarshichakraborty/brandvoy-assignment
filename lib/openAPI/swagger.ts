@@ -1,6 +1,7 @@
 import {
   OpenAPIRegistry,
   OpenApiGeneratorV3,
+  extendZodWithOpenApi,
 } from "@asteasolutions/zod-to-openapi";
 import { z } from "zod";
 import {
@@ -10,6 +11,8 @@ import {
   battingLeadersQuerySchema,
   bowlingLeadersQuerySchema,
 } from "../validators";
+
+extendZodWithOpenApi(z);
 
 const registry = new OpenAPIRegistry();
 
@@ -50,7 +53,7 @@ registry.registerPath({
   summary: "Get specific team details by ID",
   request: {
     params: z.object({
-      id: z.coerce.number().int().positive().openapi({ example: 610, description: "Team ID (tid)" }),
+      id: z.coerce.number().int().positive(),
     }),
   },
   responses: {
@@ -85,7 +88,7 @@ registry.registerPath({
   summary: "Get player profile with computed career statistics",
   request: {
     params: z.object({
-      id: z.coerce.number().int().positive().openapi({ example: 119, description: "Player ID (pid)" }),
+      id: z.coerce.number().int().positive(),
     }),
   },
   responses: {
@@ -120,7 +123,7 @@ registry.registerPath({
   summary: "Get detailed scorecard and innings breakdown for a match",
   request: {
     params: z.object({
-      id: z.coerce.number().int().positive().openapi({ example: 53327, description: "Match ID" }),
+      id: z.coerce.number().int().positive(),
     }),
   },
   responses: {
