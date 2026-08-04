@@ -46,11 +46,8 @@ import { successResponse, errorResponse } from "@/lib/api-response";
  *       400:
  *         description: Invalid query parameters
  */
-import { initDbIfNeeded } from "@/db/init";
-
 export async function GET(request: NextRequest) {
   try {
-    await initDbIfNeeded();
     const { searchParams } = new URL(request.url);
     const parsed = matchesQuerySchema.safeParse({
       page: searchParams.get("page") ?? undefined,

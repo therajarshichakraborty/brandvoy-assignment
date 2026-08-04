@@ -1,15 +1,15 @@
 import { NextRequest } from "next/server";
-import { count } from "drizzle-orm";
+import { count, ilike, or, and, SQL } from "drizzle-orm";
 import { db } from "@/db";
 import { teams } from "@/db/schema";
-import { paginationSchema } from "@/lib/validators";
+import { teamsQuerySchema } from "@/lib/validators";
 import { successResponse, errorResponse } from "@/lib/api-response";
 
 /**
  * @swagger
  * /api/teams:
  *   get:
- *     summary: List all IPL teams with pagination
+ *     summary: List all IPL teams with pagination and search
  *     tags:
  *       - Teams
  *     parameters:
@@ -25,36 +25,56 @@ import { successResponse, errorResponse } from "@/lib/api-response";
  *           type: integer
  *           default: 20
  *         description: Items per page
+ *       - in: query
+ *         name: search
+ *         schema:
+ *           type: string
+ *         description: Search team by title or abbreviation
  *     responses:
  *       200:
  *         description: Paginated list of IPL teams
  *       400:
- *         description: Invalid pagination parameters
+ *         description: Invalid query parameters
  */
-import { initDbIfNeeded } from "@/db/init";
-
 export async function GET(request: NextRequest) {
   try {
-    await initDbIfNeeded();
     const { searchParams } = new URL(request.url);
-    const parsed = paginationSchema.safeParse({
+    const parsed = teamsQuerySchema.safeParse({
       page: searchParams.get("page") ?? undefined,
       limit: searchParams.get("limit") ?? undefined,
+      search: searchParams.get("search") ?? undefined,
     });
 
     if (!parsed.success) {
-      return errorResponse("Invalid pagination parameters", "INVALID_INPUT", 400);
+      return errorResponse("Invalid query parameters", "INVALID_INPUT", 400);
     }
     
-    const { page, limit } = parsed.data;
+    const { page, limit, search } = parsed.data;
     const offset = (page - 1) * limit;
 
-    const totalCountResult = await db.select({ value: count() }).from(teams);
+    const conditions: SQL[] = [];
+    if (search) {
+      conditions.push(
+        or(
+          ilike(teams.title, `%${search}%`),
+          ilike(teams.abbr, `%${search}%`),
+          ilike(teams.altName, `%${search}%`)
+        )!
+      );
+    }
+
+    const whereClause = conditions.length > 0 ? and(...conditions) : undefined;
+
+    const totalCountResult = await db
+      .select({ value: count() })
+      .from(teams)
+      .where(whereClause);
     const total = totalCountResult[0]?.value ?? 0;
 
     const teamList = await db
       .select()
       .from(teams)
+      .where(whereClause)
       .limit(limit)
       .offset(offset);
 

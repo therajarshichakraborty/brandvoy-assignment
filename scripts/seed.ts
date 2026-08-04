@@ -99,6 +99,7 @@ async function seed() {
       const teamSquads = Array.isArray(squadData) ? squadData : [squadData];
 
       for (const squad of teamSquads) {
+        const teamId = parseIntSafe(squad.team_id || squad.team?.tid);
         const pList = squad.players || [];
         for (const p of pList) {
           const pid = parseIntSafe(p.pid || p.player_id);
@@ -118,8 +119,14 @@ async function seed() {
               battingStyle: p.batting_style || null,
               bowlingStyle: p.bowling_style || null,
               nationality: p.nationality || null,
+              teamId: teamId,
             })
-            .onConflictDoNothing();
+            .onConflictDoUpdate({
+              target: players.pid,
+              set: {
+                teamId: teamId,
+              },
+            });
         }
       }
       console.log("Squad players seeded successfully.");

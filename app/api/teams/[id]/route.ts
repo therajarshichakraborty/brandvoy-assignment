@@ -24,14 +24,11 @@ import { successResponse, errorResponse } from "@/lib/api-response";
  *       404:
  *         description: Team not found
  */
-import { initDbIfNeeded } from "@/db/init";
-
 export async function GET(
   _request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    await initDbIfNeeded();
     const { id } = await params;
     const teamId = parseInt(id, 10);
 

@@ -5,6 +5,10 @@ export const paginationSchema = z.object({
   limit: z.coerce.number().int().positive().max(100).default(20),
 });
 
+export const teamsQuerySchema = paginationSchema.extend({
+  search: z.string().optional(),
+});
+
 export const playersQuerySchema = paginationSchema.extend({
   teamId: z.coerce.number().int().positive().optional(),
   role: z.string().optional(),
