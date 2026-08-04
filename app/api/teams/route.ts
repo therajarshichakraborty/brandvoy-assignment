@@ -31,8 +31,11 @@ import { successResponse, errorResponse } from "@/lib/api-response";
  *       400:
  *         description: Invalid pagination parameters
  */
+import { initDbIfNeeded } from "@/db/init";
+
 export async function GET(request: NextRequest) {
   try {
+    await initDbIfNeeded();
     const { searchParams } = new URL(request.url);
     const parsed = paginationSchema.safeParse({
       page: searchParams.get("page") ?? undefined,

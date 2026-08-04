@@ -1,18 +1,18 @@
 import type { Metadata } from "next";
+import { Inter } from "next/font/google";
 import "./globals.css";
-import { Nanum_Pen_Script } from "next/font/google";
 import { ThemeProvider } from "@/providers/theme-providers";
-import { AnimatedThemeToggler } from "@/components/animated-theme-toggler";
+import { Navbar } from "@/components/navbar";
+import { Footer } from "@/components/footer";
 
-export const nanumPenScript = Nanum_Pen_Script({
+const inter = Inter({
   subsets: ["latin"],
-  variable: "--font-nanum-pen",
-  weight: "400",
+  variable: "--font-sans",
 });
 
 export const metadata: Metadata = {
-  title: "IntelliCode-X",
-  description: "Your NextGeneration WorkFlow Management Application",
+  title: "IPL Pulse - Clean Cricket Intelligence & Analytics",
+  description: "IPL Pulse platform offering normalized teams, players, matches, and derived leaderboards stats.",
 };
 
 export default function RootLayout({
@@ -22,21 +22,22 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang='en'
-      className={`${nanumPenScript.variable} h-full antialiased`}
+      lang="en"
+      className={`${inter.variable} h-full antialiased`}
       suppressHydrationWarning
     >
-      <body className='min-h-full flex flex-col'>
+      <body className="min-h-full flex flex-col bg-slate-50/50 dark:bg-slate-950 font-sans text-slate-900 dark:text-slate-100">
         <ThemeProvider
-          attribute='class'
-          defaultTheme='system'
+          attribute="class"
+          defaultTheme="system"
           enableSystem
           disableTransitionOnChange
         >
-          <div className='absolute top-4 right-4'>
-            <AnimatedThemeToggler />
-          </div>
-          {children}
+          <Navbar />
+          <main className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            {children}
+          </main>
+          <Footer />
         </ThemeProvider>
       </body>
     </html>
