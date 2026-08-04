@@ -1,12 +1,12 @@
 # Stage 1: Dependencies
-FROM oven/bun:1-alpine AS deps
+FROM --platform=linux/amd64 oven/bun:1-alpine AS deps
 WORKDIR /app
 
 COPY package.json bun.lock* ./
 RUN bun install --frozen-lockfile
 
 # Stage 2: Builder
-FROM oven/bun:1-alpine AS builder
+FROM --platform=linux/amd64 oven/bun:1-alpine AS builder
 WORKDIR /app
 
 COPY --from=deps /app/node_modules ./node_modules
@@ -16,7 +16,7 @@ ENV NEXT_TELEMETRY_DISABLED=1
 RUN bun run build
 
 # Stage 3: Runner
-FROM oven/bun:1-alpine AS runner
+FROM --platform=linux/amd64 oven/bun:1-alpine AS runner
 WORKDIR /app
 
 ENV NODE_ENV=production
