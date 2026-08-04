@@ -2,12 +2,12 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { 
-  Trophy, 
-  Home, 
-  Swords, 
-  BarChart3, 
-  Shield, 
+import {
+  Trophy,
+  Home,
+  Swords,
+  BarChart3,
+  Shield,
   Users,
   Activity,
   ArrowUpRight
@@ -64,11 +64,6 @@ export function Navbar() {
               Explore stats
               <ArrowUpRight className="w-3.5 h-3.5" />
             </Link>
-
-            {/* Theme Toggle */}
-            <div className="pl-1">
-              <AnimatedThemeToggler />
-            </div>
           </div>
         </div>
 
@@ -76,9 +71,9 @@ export function Navbar() {
         <nav className="flex items-center gap-1 overflow-x-auto py-2 scrollbar-none">
           {NAV_ITEMS.map((item) => {
             const Icon = item.icon;
-            const isActive = 
-              item.href === "/" 
-                ? pathname === "/" 
+            const isActive =
+              item.href === "/"
+                ? pathname === "/"
                 : pathname.startsWith(item.href);
 
             return (
