@@ -50,6 +50,7 @@ async function seed() {
 
   try {
     await db.execute(sql`ALTER TABLE players ADD COLUMN IF NOT EXISTS team_id integer;`);
+    await db.execute(sql`ALTER TABLE players ADD COLUMN IF NOT EXISTS lifetime_stats jsonb;`);
   } catch (_) {}
 
   const dataDir = path.join(process.cwd(), "data");
@@ -147,6 +148,7 @@ async function seed() {
           bowlingStyle: p.bowling_style || existing.bowlingStyle || null,
           nationality: p.nationality || existing.nationality || null,
           teamId: existing.teamId || null,
+          lifetimeStats: parsed || null,
         });
       } catch (_) {}
     }

@@ -1,4 +1,4 @@
-import { pgTable, integer, text } from "drizzle-orm/pg-core";
+import { pgTable, integer, text, jsonb } from "drizzle-orm/pg-core";
 
 export const players = pgTable("players", {
   pid: integer("pid").primaryKey(),
@@ -14,4 +14,5 @@ export const players = pgTable("players", {
   bowlingStyle: text("bowling_style"),
   nationality: text("nationality"),
   teamId: integer("team_id"),
+  lifetimeStats: jsonb("lifetime_stats"),
 });

@@ -1,5 +1,5 @@
 import { NextRequest } from "next/server";
-import { eq, sum, count } from "drizzle-orm";
+import { eq, sum, count, sql } from "drizzle-orm";
 import { db } from "@/db";
 import { players, battingInningsStats, bowlingInningsStats } from "@/db/schema";
 import { successResponse, errorResponse } from "@/lib/api-response";
@@ -51,6 +51,9 @@ export async function GET(
         totalBalls: sum(battingInningsStats.balls),
         totalFours: sum(battingInningsStats.fours),
         totalSixes: sum(battingInningsStats.sixes),
+        totalDismissals: sum(
+          sql<number>`CASE WHEN LOWER(COALESCE(${battingInningsStats.howOut}, '')) LIKE '%not out%' OR LOWER(COALESCE(${battingInningsStats.howOut}, '')) LIKE '%batting%' THEN 0 ELSE 1 END`
+        ),
       })
       .from(battingInningsStats)
       .where(eq(battingInningsStats.playerId, playerId));
@@ -72,11 +75,29 @@ export async function GET(
     const totalBalls = Number(bStats?.totalBalls ?? 0);
     const totalWickets = Number(bwStats?.totalWickets ?? 0);
     const totalRunsConceded = Number(bwStats?.totalRunsConceded ?? 0);
+    const dismissalsCount = Number(bStats?.totalDismissals ?? 0);
 
     const strikeRate = totalBalls > 0 ? ((totalRuns / totalBalls) * 100).toFixed(2) : "0.00";
     const battingInningsCount = Number(bStats?.totalInnings ?? 0);
-    const battingAverage = battingInningsCount > 0 ? (totalRuns / battingInningsCount).toFixed(2) : "0.00";
+    const battingAverage = dismissalsCount > 0 ? (totalRuns / dismissalsCount).toFixed(2) : totalRuns > 0 ? totalRuns.toFixed(2) : "0.00";
     const bowlingAverage = totalWickets > 0 ? (totalRunsConceded / totalWickets).toFixed(2) : "0.00";
+
+    let lifetimeStats: Record<string, unknown> | null = (playerRecord.lifetimeStats as Record<string, unknown> | null) ?? null;
+    if (!lifetimeStats) {
+      try {
+        const fs = await import("fs");
+        const path = await import("path");
+        const statsDir = path.join(process.cwd(), "data", "player_career_stats");
+        if (fs.existsSync(statsDir)) {
+          const files = fs.readdirSync(statsDir);
+          const playerFile = files.find((f) => f.endsWith(`_${playerId}_stats.json`));
+          if (playerFile) {
+            const rawContent = fs.readFileSync(path.join(statsDir, playerFile), "utf-8");
+            lifetimeStats = JSON.parse(rawContent);
+          }
+        }
+      } catch {}
+    }
 
     return successResponse({
       player: playerRecord,
@@ -98,6 +119,7 @@ export async function GET(
           average: bowlingAverage,
         },
       },
+      lifetimeStats,
     });
   } catch (error) {
     return errorResponse(

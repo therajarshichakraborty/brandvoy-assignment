@@ -122,6 +122,11 @@ export interface PlayerDetail {
       maidens?: number;
     };
   };
+  lifetimeStats?: {
+    player?: Record<string, unknown>;
+    batting?: Record<string, Record<string, unknown>>;
+    bowling?: Record<string, Record<string, unknown>>;
+  };
 }
 
 // ── Generic fetch hook ───────────────────────────────────────────────────────

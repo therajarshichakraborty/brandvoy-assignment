@@ -65,7 +65,8 @@ export async function GET(request: NextRequest) {
     const totalSixesCol = sum(battingInningsStats.sixes);
     const inningsCountCol = count(battingInningsStats.id);
 
-    const averageCol = sql<number>`CASE WHEN COUNT(${battingInningsStats.id}) > 0 THEN SUM(${battingInningsStats.runs})::float / COUNT(${battingInningsStats.id}) ELSE 0 END`;
+    const dismissalsExpr = sql<number>`SUM(CASE WHEN LOWER(COALESCE(${battingInningsStats.howOut}, '')) LIKE '%not out%' OR LOWER(COALESCE(${battingInningsStats.howOut}, '')) LIKE '%batting%' THEN 0 ELSE 1 END)`;
+    const averageCol = sql<number>`CASE WHEN ${dismissalsExpr} > 0 THEN SUM(${battingInningsStats.runs})::float / ${dismissalsExpr} ELSE SUM(${battingInningsStats.runs})::float END`;
     const strikeRateCol = sql<number>`CASE WHEN SUM(${battingInningsStats.balls}) > 0 THEN (SUM(${battingInningsStats.runs})::float / SUM(${battingInningsStats.balls})) * 100 ELSE 0 END`;
 
     let orderByCol = desc(totalRunsCol);

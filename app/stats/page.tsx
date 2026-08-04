@@ -12,7 +12,6 @@ export default function StatsPage() {
   const [battingMetric, setBattingMetric] = useState("runs");
   const [bowlingMetric, setBowlingMetric] = useState("wickets");
   const [page, setPage] = useState(1);
-
   const { data: battingData, meta: battingMeta, loading: battingLoading } = useBattingLeaders(battingMetric, 10, page);
   const { data: bowlingData, meta: bowlingMeta, loading: bowlingLoading } = useBowlingLeaders(bowlingMetric, 10, page);
 
