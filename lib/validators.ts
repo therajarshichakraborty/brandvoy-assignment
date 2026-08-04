@@ -6,6 +6,7 @@ export const paginationSchema = z.object({
 });
 
 export const playersQuerySchema = paginationSchema.extend({
+  teamId: z.coerce.number().int().positive().optional(),
   role: z.string().optional(),
   country: z.string().optional(),
   search: z.string().optional(),

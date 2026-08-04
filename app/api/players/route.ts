@@ -55,6 +55,7 @@ export async function GET(request: NextRequest) {
     const parsed = playersQuerySchema.safeParse({
       page: searchParams.get("page") ?? undefined,
       limit: searchParams.get("limit") ?? undefined,
+      teamId: searchParams.get("teamId") ?? undefined,
       role: searchParams.get("role") ?? undefined,
       country: searchParams.get("country") ?? undefined,
       search: searchParams.get("search") ?? undefined,
@@ -64,10 +65,13 @@ export async function GET(request: NextRequest) {
       return errorResponse("Invalid query parameters", "INVALID_INPUT", 400);
     }
 
-    const { page, limit, role, country, search } = parsed.data;
+    const { page, limit, teamId, role, country, search } = parsed.data;
     const offset = (page - 1) * limit;
 
     const conditions: SQL[] = [];
+    if (teamId) {
+      conditions.push(eq(players.teamId, teamId));
+    }
     if (role) {
       conditions.push(eq(players.playingRole, role));
     }

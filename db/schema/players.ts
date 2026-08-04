@@ -13,4 +13,5 @@ export const players = pgTable("players", {
   battingStyle: text("batting_style"),
   bowlingStyle: text("bowling_style"),
   nationality: text("nationality"),
+  teamId: integer("team_id"),
 });

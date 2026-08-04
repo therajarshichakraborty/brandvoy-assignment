@@ -85,8 +85,10 @@ export async function initDbIfNeeded() {
         playing_role text,
         batting_style text,
         bowling_style text,
-        nationality text
+        nationality text,
+        team_id integer
       );
+      ALTER TABLE players ADD COLUMN IF NOT EXISTS team_id integer;
       CREATE TABLE IF NOT EXISTS matches (
         id integer PRIMARY KEY NOT NULL,
         title text NOT NULL,
@@ -192,6 +194,7 @@ export async function initDbIfNeeded() {
         const squadData = JSON.parse(raw);
         const teamSquads = Array.isArray(squadData) ? squadData : [squadData];
         for (const squad of teamSquads) {
+          const teamId = parseIntSafe(squad.team_id || squad.team?.tid);
           for (const p of squad.players || []) {
             const pid = parseIntSafe(p.pid || p.player_id);
             if (!pid) continue;
@@ -210,8 +213,14 @@ export async function initDbIfNeeded() {
                 battingStyle: p.batting_style || null,
                 bowlingStyle: p.bowling_style || null,
                 nationality: p.nationality || null,
+                teamId: teamId,
               })
-              .onConflictDoNothing();
+              .onConflictDoUpdate({
+                target: players.pid,
+                set: {
+                  teamId: teamId,
+                },
+              });
           }
         }
       }
@@ -344,6 +353,27 @@ export async function initDbIfNeeded() {
         }
       }
       console.log("Database auto-seeding completed!");
+    }
+
+    const nullTeamCheck = await db.execute(sql`SELECT count(*)::int FROM players WHERE team_id IS NULL`);
+    const nullCount = Number(nullTeamCheck[0]?.count ?? 0);
+    if (nullCount > 0) {
+      const dataDir = path.join(process.cwd(), "data");
+      const squadsFile = path.join(dataDir, "squads", "squads.json");
+      if (fs.existsSync(squadsFile)) {
+        const raw = fs.readFileSync(squadsFile, "utf-8");
+        const squadData = JSON.parse(raw);
+        const teamSquads = Array.isArray(squadData) ? squadData : [squadData];
+        for (const squad of teamSquads) {
+          const teamId = parseIntSafe(squad.team_id || squad.team?.tid);
+          if (!teamId) continue;
+          for (const p of squad.players || []) {
+            const pid = parseIntSafe(p.pid || p.player_id);
+            if (!pid) continue;
+            await db.execute(sql`UPDATE players SET team_id = ${teamId} WHERE pid = ${pid}`);
+          }
+        }
+      }
     }
 
     isInitialized = true;
