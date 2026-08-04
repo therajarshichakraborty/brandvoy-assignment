@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Swords, Calendar, ChevronLeft, ChevronRight, ArrowRight, Shield } from "lucide-react";
+import { Swords, Calendar, ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
 import { useMatches, useTeams } from "@/hooks/use-api";
 
 export default function MatchesPage() {

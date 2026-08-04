@@ -2,8 +2,15 @@
 
 import { use } from "react";
 import Link from "next/link";
-import { ArrowLeft, Swords, Calendar, MapPin, Trophy, CheckCircle2 } from "lucide-react";
+import { ArrowLeft, Calendar, MapPin, Trophy } from "lucide-react";
 import { useMatchDetail } from "@/hooks/use-api";
+
+interface Innings {
+  id?: string | number;
+  inningsNumber: number;
+  battingTeamId: number;
+  bowlingTeamId: number;
+}
 
 interface MatchDetailPageProps {
   params: Promise<{ id: string }>;
@@ -85,7 +92,7 @@ export default function MatchDetailPage({ params }: MatchDetailPageProps) {
         <div className="space-y-4">
           <h2 className="text-lg font-bold text-foreground">Innings Breakdown</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {match.innings.map((inn: any, idx: number) => (
+            {match.innings.map((inn: Innings, idx: number) => (
               <div key={inn.id || idx} className="bg-card rounded-2xl p-5 border border-border/60 space-y-3">
                 <div className="flex items-center justify-between border-b border-border/40 pb-2">
                   <span className="font-bold text-sm text-foreground">Innings {inn.inningsNumber}</span>

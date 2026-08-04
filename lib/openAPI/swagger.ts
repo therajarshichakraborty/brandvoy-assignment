@@ -1,6 +1,6 @@
 import { createSwaggerSpec } from "next-swagger-doc";
 
-export async function getApiDocs() {
+export async function getApiDocs(): Promise<Record<string, unknown>> {
   try {
     const spec = createSwaggerSpec({
       apiFolder: "app/api",
@@ -26,7 +26,7 @@ export async function getApiDocs() {
         ],
       },
     });
-    return spec;
+    return spec as Record<string, unknown>;
   } catch (error) {
     return {
       openapi: "3.0.0",

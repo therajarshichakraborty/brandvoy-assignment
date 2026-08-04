@@ -1,4 +1,4 @@
-//@ts-nocheck
+
 import { getApiDocs } from "@/lib/openAPI/swagger";
 import ReactSwagger from "./react-swagger";
 

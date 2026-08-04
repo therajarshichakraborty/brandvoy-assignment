@@ -6,14 +6,16 @@ COPY package.json bun.lock* ./
 RUN bun install --frozen-lockfile
 
 # Stage 2: Builder
-FROM oven/bun:1-alpine AS builder
+# Use Node.js (not Bun) to run next build — Bun's JIT crashes with SIGILL
+# inside Alpine containers due to CPU instruction sandboxing in Docker.
+FROM node:20-alpine AS builder
 WORKDIR /app
 
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
 ENV NEXT_TELEMETRY_DISABLED=1
-RUN bun run build
+RUN node_modules/.bin/next build
 
 # Stage 3: Runner
 FROM oven/bun:1-alpine AS runner
