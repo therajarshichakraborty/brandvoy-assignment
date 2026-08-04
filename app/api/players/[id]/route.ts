@@ -4,6 +4,26 @@ import { db } from "@/db";
 import { players, battingInningsStats, bowlingInningsStats } from "@/db/schema";
 import { successResponse, errorResponse } from "@/lib/api-response";
 
+/**
+ * @swagger
+ * /api/players/{id}:
+ *   get:
+ *     summary: Get player profile with computed career statistics
+ *     tags:
+ *       - Players
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: Player ID (pid)
+ *     responses:
+ *       200:
+ *         description: Player profile and aggregated career statistics
+ *       404:
+ *         description: Player not found
+ */
 export async function GET(
   _request: NextRequest,
   { params }: { params: Promise<{ id: string }> }

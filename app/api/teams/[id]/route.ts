@@ -4,6 +4,26 @@ import { db } from "@/db";
 import { teams } from "@/db/schema";
 import { successResponse, errorResponse } from "@/lib/api-response";
 
+/**
+ * @swagger
+ * /api/teams/{id}:
+ *   get:
+ *     summary: Get specific team details by ID
+ *     tags:
+ *       - Teams
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: Team ID (tid)
+ *     responses:
+ *       200:
+ *         description: Team record details
+ *       404:
+ *         description: Team not found
+ */
 export async function GET(
   _request: NextRequest,
   { params }: { params: Promise<{ id: string }> }

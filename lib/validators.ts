@@ -1,7 +1,4 @@
 import { z } from "zod";
-import { extendZodWithOpenApi } from "@asteasolutions/zod-to-openapi";
-
-extendZodWithOpenApi(z);
 
 export const paginationSchema = z.object({
   page: z.coerce.number().int().positive().default(1),

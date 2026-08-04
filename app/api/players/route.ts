@@ -5,6 +5,47 @@ import { players } from "@/db/schema";
 import { playersQuerySchema } from "@/lib/validators";
 import { successResponse, errorResponse } from "@/lib/api-response";
 
+/**
+ * @swagger
+ * /api/players:
+ *   get:
+ *     summary: List players with pagination and filtering
+ *     tags:
+ *       - Players
+ *     parameters:
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *           default: 1
+ *         description: Page number
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *           default: 20
+ *         description: Items per page
+ *       - in: query
+ *         name: role
+ *         schema:
+ *           type: string
+ *         description: Filter by playing role
+ *       - in: query
+ *         name: country
+ *         schema:
+ *           type: string
+ *         description: Filter by country code
+ *       - in: query
+ *         name: search
+ *         schema:
+ *           type: string
+ *         description: Search player by name
+ *     responses:
+ *       200:
+ *         description: Paginated player list
+ *       400:
+ *         description: Invalid query parameters
+ */
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);

@@ -5,6 +5,32 @@ import { teams } from "@/db/schema";
 import { paginationSchema } from "@/lib/validators";
 import { successResponse, errorResponse } from "@/lib/api-response";
 
+/**
+ * @swagger
+ * /api/teams:
+ *   get:
+ *     summary: List all IPL teams with pagination
+ *     tags:
+ *       - Teams
+ *     parameters:
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *           default: 1
+ *         description: Page number
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *           default: 20
+ *         description: Items per page
+ *     responses:
+ *       200:
+ *         description: Paginated list of IPL teams
+ *       400:
+ *         description: Invalid pagination parameters
+ */
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);

@@ -5,6 +5,39 @@ import { players, battingInningsStats } from "@/db/schema";
 import { battingLeadersQuerySchema } from "@/lib/validators";
 import { successResponse, errorResponse } from "@/lib/api-response";
 
+/**
+ * @swagger
+ * /api/stats/batting-leaders:
+ *   get:
+ *     summary: Top batting leaders computed via SQL aggregation
+ *     tags:
+ *       - Leaderboards
+ *     parameters:
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *           default: 1
+ *         description: Page number
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *           default: 20
+ *         description: Items per page
+ *       - in: query
+ *         name: metric
+ *         schema:
+ *           type: string
+ *           enum: [runs, average, strikeRate, fours, sixes]
+ *           default: runs
+ *         description: Sorting metric
+ *     responses:
+ *       200:
+ *         description: Batting leaderboard rankings
+ *       400:
+ *         description: Invalid query parameters
+ */
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);

@@ -4,6 +4,26 @@ import { db } from "@/db";
 import { matches } from "@/db/schema";
 import { successResponse, errorResponse } from "@/lib/api-response";
 
+/**
+ * @swagger
+ * /api/matches/{id}:
+ *   get:
+ *     summary: Get detailed scorecard and innings breakdown for a match
+ *     tags:
+ *       - Matches
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: Match ID
+ *     responses:
+ *       200:
+ *         description: Match scorecard breakdown
+ *       404:
+ *         description: Match not found
+ */
 export async function GET(
   _request: NextRequest,
   { params }: { params: Promise<{ id: string }> }

@@ -5,6 +5,47 @@ import { matches } from "@/db/schema";
 import { matchesQuerySchema } from "@/lib/validators";
 import { successResponse, errorResponse } from "@/lib/api-response";
 
+/**
+ * @swagger
+ * /api/matches:
+ *   get:
+ *     summary: List matches with pagination and filtering
+ *     tags:
+ *       - Matches
+ *     parameters:
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *           default: 1
+ *         description: Page number
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *           default: 20
+ *         description: Items per page
+ *       - in: query
+ *         name: teamId
+ *         schema:
+ *           type: integer
+ *         description: Filter matches involving team ID
+ *       - in: query
+ *         name: startDate
+ *         schema:
+ *           type: string
+ *         description: Start date (YYYY-MM-DD)
+ *       - in: query
+ *         name: endDate
+ *         schema:
+ *           type: string
+ *         description: End date (YYYY-MM-DD)
+ *     responses:
+ *       200:
+ *         description: Paginated match list
+ *       400:
+ *         description: Invalid query parameters
+ */
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);

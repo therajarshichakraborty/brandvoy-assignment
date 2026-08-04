@@ -5,6 +5,39 @@ import { players, bowlingInningsStats } from "@/db/schema";
 import { bowlingLeadersQuerySchema } from "@/lib/validators";
 import { successResponse, errorResponse } from "@/lib/api-response";
 
+/**
+ * @swagger
+ * /api/stats/bowling-leaders:
+ *   get:
+ *     summary: Top bowling leaders computed via SQL aggregation
+ *     tags:
+ *       - Leaderboards
+ *     parameters:
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *           default: 1
+ *         description: Page number
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *           default: 20
+ *         description: Items per page
+ *       - in: query
+ *         name: metric
+ *         schema:
+ *           type: string
+ *           enum: [wickets, economy, strikeRate, maidens]
+ *           default: wickets
+ *         description: Sorting metric
+ *     responses:
+ *       200:
+ *         description: Bowling leaderboard rankings
+ *       400:
+ *         description: Invalid query parameters
+ */
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
