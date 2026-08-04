@@ -3,7 +3,7 @@ version: "3.9"
 services:
   postgres:
     image: postgres:17
-    container_name: intellicodex-postgres
+    container_name: brandboy-postgres
     restart: unless-stopped
 
     environment:
