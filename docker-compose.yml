@@ -3,13 +3,13 @@ version: "3.9"
 services:
   postgres:
     image: postgres:17
-    container_name: brandboy-postgres
+    container_name: ipl-postgres
     restart: unless-stopped
 
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: intellicodex
+      POSTGRES_DB: ipl
 
     ports:
       - "5432:5432"

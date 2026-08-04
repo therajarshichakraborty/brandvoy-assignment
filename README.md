@@ -173,6 +173,33 @@ styles/
 
 # Getting Started
 
+## Quickstart Database Setup (Docker + Migrations + Seed)
+
+Run the full local setup in one command:
+
+```bash
+bun run db:setup
+```
+
+Or execute individual steps:
+
+1. **Start Docker PostgreSQL Container**:
+   ```bash
+   docker compose up -d
+   ```
+
+2. **Apply Database Migrations**:
+   ```bash
+   bun run db:migrate
+   ```
+
+3. **Seed Database from Dataset**:
+   ```bash
+   bun run db:seed
+   ```
+
+---
+
 ## Clone the repository
 
 ```bash
