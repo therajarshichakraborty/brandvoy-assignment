@@ -19,8 +19,8 @@ export default function TeamDetailPage({ params }: TeamDetailPageProps) {
   if (teamLoading) {
     return (
       <div className="space-y-6 py-6">
-        <div className="h-32 rounded-2xl bg-slate-100 dark:bg-slate-900 animate-pulse" />
-        <div className="h-64 rounded-2xl bg-slate-100 dark:bg-slate-900 animate-pulse" />
+        <div className="h-32 rounded-2xl bg-slate-100 animate-pulse" />
+        <div className="h-64 rounded-2xl bg-slate-100 animate-pulse" />
       </div>
     );
   }
@@ -31,7 +31,7 @@ export default function TeamDetailPage({ params }: TeamDetailPageProps) {
         <Link href="/teams" className="inline-flex items-center gap-2 text-xs font-semibold text-blue-600">
           <ArrowLeft className="w-4 h-4" /> Back to Teams
         </Link>
-        <div className="p-6 rounded-2xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 text-rose-600 text-sm">
+        <div className="p-6 rounded-2xl bg-rose-50 border border-rose-200 text-rose-600 text-sm">
           Team not found or error loading team details: {teamError}
         </div>
       </div>
@@ -47,7 +47,7 @@ export default function TeamDetailPage({ params }: TeamDetailPageProps) {
       {/* Team Header Banner */}
       <div className="bg-card rounded-2xl p-6 border border-border/60 shadow-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
         <div className="flex items-center gap-4">
-          <div className="w-16 h-16 rounded-2xl bg-blue-600/10 border border-blue-200 dark:border-blue-800 flex items-center justify-center font-extrabold text-blue-600 text-xl">
+          <div className="w-16 h-16 rounded-2xl bg-blue-600/10 border border-blue-200 flex items-center justify-center font-extrabold text-blue-600 text-xl">
             {team.abbr || team.title?.substring(0, 3).toUpperCase()}
           </div>
           <div>
@@ -59,11 +59,11 @@ export default function TeamDetailPage({ params }: TeamDetailPageProps) {
         </div>
 
         <div className="flex items-center gap-3">
-          <div className="px-4 py-2 rounded-xl bg-slate-50 dark:bg-slate-900 border border-border/60 text-center">
+          <div className="px-4 py-2 rounded-xl bg-slate-50 border border-border/60 text-center">
             <div className="text-[10px] uppercase font-bold text-muted-foreground">Team ID</div>
             <div className="text-sm font-bold text-foreground">#{team.tid}</div>
           </div>
-          <div className="px-4 py-2 rounded-xl bg-slate-50 dark:bg-slate-900 border border-border/60 text-center">
+          <div className="px-4 py-2 rounded-xl bg-slate-50 border border-border/60 text-center">
             <div className="text-[10px] uppercase font-bold text-muted-foreground">Squad Size</div>
             <div className="text-sm font-bold text-blue-600">{players ? players.length : 0}</div>
           </div>
@@ -85,7 +85,7 @@ export default function TeamDetailPage({ params }: TeamDetailPageProps) {
         {playersLoading ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             {Array.from({ length: 6 }).map((_, i) => (
-              <div key={i} className="h-20 rounded-xl bg-slate-100 dark:bg-slate-900 animate-pulse" />
+              <div key={i} className="h-20 rounded-xl bg-slate-100 animate-pulse" />
             ))}
           </div>
         ) : players && players.length > 0 ? (

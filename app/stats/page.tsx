@@ -34,7 +34,7 @@ export default function StatsPage() {
         </div>
 
         {/* Primary Tabs */}
-        <div className="flex items-center gap-2 bg-slate-100 dark:bg-slate-900 p-1 rounded-xl">
+        <div className="flex items-center gap-2 bg-slate-100 p-1 rounded-xl">
           <button
             onClick={() => {
               setTab("batting");
@@ -77,7 +77,7 @@ export default function StatsPage() {
             <select
               value={battingMetric}
               onChange={(e) => setBattingMetric(e.target.value)}
-              className="py-1.5 px-3 rounded-lg bg-slate-50 dark:bg-slate-900 border border-border/60 text-xs font-medium focus:outline-none"
+              className="py-1.5 px-3 rounded-lg bg-slate-50 border border-border/60 text-xs font-medium focus:outline-none"
             >
               <option value="runs">Most Runs</option>
               <option value="average">Highest Average</option>
@@ -89,7 +89,7 @@ export default function StatsPage() {
             <select
               value={bowlingMetric}
               onChange={(e) => setBowlingMetric(e.target.value)}
-              className="py-1.5 px-3 rounded-lg bg-slate-50 dark:bg-slate-900 border border-border/60 text-xs font-medium focus:outline-none"
+              className="py-1.5 px-3 rounded-lg bg-slate-50 border border-border/60 text-xs font-medium focus:outline-none"
             >
               <option value="wickets">Most Wickets</option>
               <option value="economy">Best Economy Rate</option>
@@ -120,13 +120,13 @@ export default function StatsPage() {
         {isLoading ? (
           <div className="p-8 space-y-3">
             {Array.from({ length: 5 }).map((_, i) => (
-              <div key={i} className="h-10 rounded-lg bg-slate-100 dark:bg-slate-900 animate-pulse" />
+              <div key={i} className="h-10 rounded-lg bg-slate-100 animate-pulse" />
             ))}
           </div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
-              <thead className="bg-slate-50 dark:bg-slate-900/60 border-b border-border/40 text-muted-foreground uppercase font-bold text-[10px] tracking-wider">
+              <thead className="bg-slate-50 border-b border-border/40 text-muted-foreground uppercase font-bold text-[10px] tracking-wider">
                 <tr>
                   <th className="py-3 px-4">#</th>
                   <th className="py-3 px-4">Player</th>
@@ -152,7 +152,7 @@ export default function StatsPage() {
               <tbody className="divide-y divide-border/40">
                 {tab === "batting"
                   ? battingData?.map((item: BattingLeader, idx: number) => (
-                      <tr key={item.playerId} className="hover:bg-slate-50/60 dark:hover:bg-slate-900/40 transition-colors">
+                      <tr key={item.playerId} className="hover:bg-slate-50/60 transition-colors">
                         <td className="py-3.5 px-4 font-bold text-slate-400">
                           {(page - 1) * 10 + idx + 1}
                         </td>
@@ -170,7 +170,7 @@ export default function StatsPage() {
                       </tr>
                     ))
                   : bowlingData?.map((item: BowlingLeader, idx: number) => (
-                      <tr key={item.playerId} className="hover:bg-slate-50/60 dark:hover:bg-slate-900/40 transition-colors">
+                      <tr key={item.playerId} className="hover:bg-slate-50/60 transition-colors">
                         <td className="py-3.5 px-4 font-bold text-slate-400">
                           {(page - 1) * 10 + idx + 1}
                         </td>
@@ -204,14 +204,14 @@ export default function StatsPage() {
               <button
                 disabled={page <= 1}
                 onClick={() => setPage((p) => Math.max(1, p - 1))}
-                className="p-1.5 rounded-lg border border-border disabled:opacity-40 hover:bg-slate-100 dark:hover:bg-slate-900"
+                className="p-1.5 rounded-lg border border-border disabled:opacity-40 hover:bg-slate-100"
               >
                 <ChevronLeft className="w-4 h-4" />
               </button>
               <button
                 disabled={page >= currentMeta.totalPages}
                 onClick={() => setPage((p) => p + 1)}
-                className="p-1.5 rounded-lg border border-border disabled:opacity-40 hover:bg-slate-100 dark:hover:bg-slate-900"
+                className="p-1.5 rounded-lg border border-border disabled:opacity-40 hover:bg-slate-100"
               >
                 <ChevronRight className="w-4 h-4" />
               </button>

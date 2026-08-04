@@ -72,14 +72,14 @@ export default function PlayersPage() {
       {loading && (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {Array.from({ length: 12 }).map((_, i) => (
-            <div key={i} className="h-32 rounded-2xl bg-slate-100 dark:bg-slate-900 animate-pulse border border-border/40" />
+            <div key={i} className="h-32 rounded-2xl bg-slate-100 animate-pulse border border-border/40" />
           ))}
         </div>
       )}
 
       {/* Error state */}
       {error && (
-        <div className="p-6 rounded-2xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 text-rose-600 text-sm">
+        <div className="p-6 rounded-2xl bg-rose-50 border border-rose-200 text-rose-600 text-sm">
           Failed to load players: {error}
         </div>
       )}
@@ -101,10 +101,10 @@ export default function PlayersPage() {
                   className="group bg-card rounded-2xl p-4 border border-border/60 hover:border-blue-500/50 hover:shadow-xs transition-all space-y-3 flex flex-col justify-between"
                 >
                   <div className="flex items-start justify-between gap-2">
-                    <div className="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-950 text-blue-600 flex items-center justify-center font-bold text-sm">
+                    <div className="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-sm">
                       {player.shortName?.substring(0, 2) || player.title?.substring(0, 2)}
                     </div>
-                    <span className="text-[10px] font-semibold px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400">
+                    <span className="text-[10px] font-semibold px-2 py-0.5 rounded-md bg-slate-100 text-slate-600">
                       {player.country || "Intl"}
                     </span>
                   </div>
@@ -139,14 +139,14 @@ export default function PlayersPage() {
                 <button
                   disabled={page <= 1}
                   onClick={() => setPage((p) => Math.max(1, p - 1))}
-                  className="p-2 rounded-lg border border-border disabled:opacity-40 hover:bg-slate-100 dark:hover:bg-slate-900 transition-colors"
+                  className="p-2 rounded-lg border border-border disabled:opacity-40 hover:bg-slate-100 transition-colors"
                 >
                   <ChevronLeft className="w-4 h-4" />
                 </button>
                 <button
                   disabled={page >= meta.totalPages}
                   onClick={() => setPage((p) => p + 1)}
-                  className="p-2 rounded-lg border border-border disabled:opacity-40 hover:bg-slate-100 dark:hover:bg-slate-900 transition-colors"
+                  className="p-2 rounded-lg border border-border disabled:opacity-40 hover:bg-slate-100 transition-colors"
                 >
                   <ChevronRight className="w-4 h-4" />
                 </button>

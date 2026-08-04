@@ -72,40 +72,44 @@ export default function MatchesPage() {
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {matches.map((match) => (
-                <Link
-                  key={match.matchId}
-                  href={`/matches/${match.matchId}`}
-                  className="group bg-card rounded-2xl p-5 border border-border/60 hover:border-blue-500/50 hover:shadow-xs transition-all space-y-4 flex flex-col justify-between"
-                >
-                  <div className="flex items-center justify-between text-xs text-muted-foreground border-b border-border/40 pb-2">
-                    <span className="inline-flex items-center gap-1">
-                      <Calendar className="w-3.5 h-3.5 text-blue-600" />
-                      {match.date ? new Date(match.date).toLocaleDateString() : "Match Date"}
-                    </span>
-                    <span className="font-semibold text-slate-500">ID #{match.matchId}</span>
-                  </div>
+              {matches.map((match) => {
+                const mId = match.id ?? match.matchId;
+                const mDate = match.dateStart || match.date;
+                return (
+                  <Link
+                    key={mId}
+                    href={`/matches/${mId}`}
+                    className="group bg-card rounded-2xl p-5 border border-border/60 hover:border-blue-500/50 hover:shadow-xs transition-all space-y-4 flex flex-col justify-between"
+                  >
+                    <div className="flex items-center justify-between text-xs text-muted-foreground border-b border-border/40 pb-2">
+                      <span className="inline-flex items-center gap-1">
+                        <Calendar className="w-3.5 h-3.5 text-blue-600" />
+                        {mDate ? new Date(mDate).toLocaleDateString() : "Match Date"}
+                      </span>
+                      <span className="font-semibold text-slate-500">ID #{mId}</span>
+                    </div>
 
-                  <div className="space-y-2">
-                    <div className="text-sm font-bold text-foreground group-hover:text-blue-600 transition-colors">
-                      {match.title || `Match #${match.matchId}`}
-                    </div>
-                    <div className="text-xs text-muted-foreground line-clamp-1">
-                      Venue: {match.venue || "IPL Stadium"}
-                    </div>
-                    {match.result && (
-                      <div className="inline-block px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-[11px] font-semibold text-slate-700 dark:text-slate-300">
-                        {match.result}
+                    <div className="space-y-2">
+                      <div className="text-sm font-bold text-foreground group-hover:text-blue-600 transition-colors">
+                        {match.title || `Match #${mId}`}
                       </div>
-                    )}
-                  </div>
+                      <div className="text-xs text-muted-foreground line-clamp-1">
+                        Venue: {match.venue || "IPL Stadium"}
+                      </div>
+                      {match.result && (
+                        <div className="inline-block px-2.5 py-1 rounded-lg bg-slate-100 text-[11px] font-semibold text-slate-700">
+                          {match.result}
+                        </div>
+                      )}
+                    </div>
 
-                  <div className="pt-2 border-t border-border/40 flex items-center justify-between text-xs font-medium text-blue-600">
-                    <span>Full scorecard & breakdown</span>
-                    <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-                  </div>
-                </Link>
-              ))}
+                    <div className="pt-2 border-t border-border/40 flex items-center justify-between text-xs font-medium text-blue-600">
+                      <span>Full scorecard & breakdown</span>
+                      <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                    </div>
+                  </Link>
+                );
+              })}
             </div>
           )}
 

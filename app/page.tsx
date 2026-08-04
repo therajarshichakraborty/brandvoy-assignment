@@ -40,18 +40,18 @@ export default function HomePage() {
           <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/5 rounded-full blur-3xl pointer-events-none" />
 
           <div className="flex flex-wrap items-center justify-between gap-4">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-800/50">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-blue-50 text-blue-600 border border-blue-200">
               <Sparkles className="w-3.5 h-3.5" />
               Minimal white + blue dashboard
             </span>
 
             {/* Tournament Health Box */}
-            <div className="flex items-center gap-4 bg-slate-50 dark:bg-slate-900 px-4 py-2 rounded-xl border border-slate-200/80 dark:border-slate-800">
+            <div className="flex items-center gap-4 bg-slate-50 px-4 py-2 rounded-xl border border-slate-200/80">
               <div className="text-right">
                 <div className="text-[10px] uppercase font-bold text-muted-foreground tracking-wider">
                   Tournament health
                 </div>
-                <div className="text-lg font-bold text-blue-600 dark:text-blue-400">92%</div>
+                <div className="text-lg font-bold text-blue-600">92%</div>
               </div>
               <div className="h-8 w-px bg-border" />
               <div className="text-xs space-y-0.5">
@@ -72,7 +72,7 @@ export default function HomePage() {
 
           {/* 3 Stat KPI Cards inside Hero */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
-            <div className="bg-slate-50/70 dark:bg-slate-900/60 p-4 rounded-xl border border-slate-200/60 dark:border-slate-800 space-y-1">
+            <div className="bg-slate-50/70 p-4 rounded-xl border border-slate-200/60 space-y-1">
               <div className="text-xs font-medium text-muted-foreground">Top batting runs</div>
               <div className="text-2xl font-bold text-foreground">
                 {topBatsman ? topBatsman.totalRuns : "812"}
@@ -82,7 +82,7 @@ export default function HomePage() {
               </div>
             </div>
 
-            <div className="bg-slate-50/70 dark:bg-slate-900/60 p-4 rounded-xl border border-slate-200/60 dark:border-slate-800 space-y-1 relative">
+            <div className="bg-slate-50/70 p-4 rounded-xl border border-slate-200/60 space-y-1 relative">
               <div className="flex items-center justify-between text-xs font-medium text-muted-foreground">
                 <span>Best economy</span>
                 <Zap className="w-3.5 h-3.5 text-blue-600" />
@@ -95,7 +95,7 @@ export default function HomePage() {
               </div>
             </div>
 
-            <div className="bg-slate-50/70 dark:bg-slate-900/60 p-4 rounded-xl border border-slate-200/60 dark:border-slate-800 space-y-1 relative">
+            <div className="bg-slate-50/70 p-4 rounded-xl border border-slate-200/60 space-y-1 relative">
               <div className="flex items-center justify-between text-xs font-medium text-muted-foreground">
                 <span>Points table</span>
                 <Trophy className="w-3.5 h-3.5 text-blue-600" />
@@ -126,7 +126,7 @@ export default function HomePage() {
               <span>Season mode</span>
               <span className="text-[10px] text-slate-400">Auto</span>
             </div>
-            <div className="grid grid-cols-2 gap-2 bg-slate-100 dark:bg-slate-900 p-1 rounded-xl">
+            <div className="grid grid-cols-2 gap-2 bg-slate-100 p-1 rounded-xl">
               <button
                 onClick={() => setSeasonMode("all")}
                 className={`py-1.5 px-3 rounded-lg text-xs font-semibold transition-all ${
@@ -162,8 +162,8 @@ export default function HomePage() {
                   onClick={() => setFocusArea(area)}
                   className={`py-2 px-3 rounded-xl text-xs font-medium border text-capitalize transition-all text-left ${
                     focusArea === area
-                      ? "bg-blue-50 dark:bg-blue-950/60 border-blue-500 text-blue-600 dark:text-blue-400 font-semibold"
-                      : "bg-slate-50 dark:bg-slate-900/40 border-slate-200 dark:border-slate-800 text-muted-foreground hover:border-slate-300"
+                      ? "bg-blue-50 border-blue-500 text-blue-600 font-semibold"
+                      : "bg-slate-50 border-slate-200 text-muted-foreground hover:border-slate-300"
                   }`}
                 >
                   {area.charAt(0).toUpperCase() + area.slice(1)}
@@ -253,7 +253,7 @@ export default function HomePage() {
           </div>
 
           <div className="space-y-4 text-xs">
-            <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 space-y-2">
+            <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200/60 space-y-2">
               <div className="flex items-center gap-2 font-semibold text-foreground">
                 <div className="w-6 h-6 rounded-md bg-blue-600 text-white flex items-center justify-center text-[10px]">
                   NT
@@ -265,7 +265,7 @@ export default function HomePage() {
               </p>
             </div>
 
-            <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 space-y-2">
+            <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200/60 space-y-2">
               <div className="flex items-center gap-2 font-semibold text-foreground">
                 <Award className="w-4 h-4 text-emerald-600" />
                 Derived leaderboards
@@ -278,7 +278,7 @@ export default function HomePage() {
             <div className="pt-2">
               <Link
                 href="/api-docs"
-                className="w-full inline-flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg border border-border hover:bg-slate-50 dark:hover:bg-slate-900 text-xs font-medium transition-colors"
+                className="w-full inline-flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg border border-border hover:bg-slate-50 text-xs font-medium transition-colors"
               >
                 Inspect OpenAPI Spec & Endpoints
                 <ArrowRight className="w-3.5 h-3.5" />

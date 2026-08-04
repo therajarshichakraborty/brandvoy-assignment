@@ -3,14 +3,7 @@
 import { use } from "react";
 import Link from "next/link";
 import { ArrowLeft, Calendar, MapPin, Trophy } from "lucide-react";
-import { useMatchDetail } from "@/hooks/use-api";
-
-interface Innings {
-  id?: string | number;
-  inningsNumber: number;
-  battingTeamId: number;
-  bowlingTeamId: number;
-}
+import { useMatchDetail, Innings } from "@/hooks/use-api";
 
 interface MatchDetailPageProps {
   params: Promise<{ id: string }>;
@@ -44,6 +37,11 @@ export default function MatchDetailPage({ params }: MatchDetailPageProps) {
     );
   }
 
+  const mId = match.id ?? match.matchId;
+  const mDate = match.dateStart || match.date;
+  const mInnings = match.inningsList || match.innings;
+  const tossWinnerName = typeof match.tossWinner === "object" ? match.tossWinner?.title : match.tossWinner;
+
   return (
     <div className="space-y-6 pb-12">
       <Link href="/matches" className="inline-flex items-center gap-2 text-xs font-semibold text-blue-600 hover:underline">
@@ -55,7 +53,7 @@ export default function MatchDetailPage({ params }: MatchDetailPageProps) {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border/40 pb-4">
           <div className="flex items-center gap-2 text-xs text-muted-foreground">
             <Calendar className="w-4 h-4 text-blue-600" />
-            <span>{match.date ? new Date(match.date).toLocaleDateString() : "Scheduled Match"}</span>
+            <span>{mDate ? new Date(mDate).toLocaleDateString() : "Scheduled Match"}</span>
             <span>•</span>
             <span className="inline-flex items-center gap-1">
               <MapPin className="w-3.5 h-3.5 text-slate-400" />
@@ -63,15 +61,15 @@ export default function MatchDetailPage({ params }: MatchDetailPageProps) {
             </span>
           </div>
 
-          <span className="text-xs font-bold px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-950 text-blue-600 border border-blue-200 dark:border-blue-800">
-            Match #{match.matchId}
+          <span className="text-xs font-bold px-3 py-1 rounded-full bg-blue-50 text-blue-600 border border-blue-200">
+            Match #{mId}
           </span>
         </div>
 
         <div className="space-y-2">
-          <h1 className="text-2xl font-extrabold text-foreground">{match.title || `Match #${match.matchId}`}</h1>
+          <h1 className="text-2xl font-extrabold text-foreground">{match.title || `Match #${mId}`}</h1>
           {match.result && (
-            <div className="flex items-center gap-2 text-sm font-semibold text-emerald-600 dark:text-emerald-400">
+            <div className="flex items-center gap-2 text-sm font-semibold text-emerald-600">
               <Trophy className="w-4 h-4" />
               {match.result}
             </div>
@@ -79,27 +77,40 @@ export default function MatchDetailPage({ params }: MatchDetailPageProps) {
         </div>
 
         {/* Toss & Info */}
-        {match.tossWinner && (
-          <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-xs text-muted-foreground">
-            <span className="font-semibold text-foreground">Toss Info: </span>
-            {match.tossWinner} won the toss and elected to {match.tossDecision || "play"}.
+        {(tossWinnerName || match.statusNote) && (
+          <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs text-muted-foreground">
+            {tossWinnerName ? (
+              <>
+                <span className="font-semibold text-foreground">Toss Info: </span>
+                {tossWinnerName} won the toss and elected to {match.tossDecision || "play"}.
+              </>
+            ) : (
+              <span>{match.statusNote}</span>
+            )}
           </div>
         )}
       </div>
 
       {/* Innings Summaries */}
-      {match.innings && match.innings.length > 0 && (
+      {mInnings && mInnings.length > 0 && (
         <div className="space-y-4">
           <h2 className="text-lg font-bold text-foreground">Innings Breakdown</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {match.innings.map((inn: Innings, idx: number) => (
+            {mInnings.map((inn: Innings, idx: number) => (
               <div key={inn.id || idx} className="bg-card rounded-2xl p-5 border border-border/60 space-y-3">
                 <div className="flex items-center justify-between border-b border-border/40 pb-2">
                   <span className="font-bold text-sm text-foreground">Innings {inn.inningsNumber}</span>
-                  <span className="text-xs font-medium text-muted-foreground">Team #{inn.battingTeamId}</span>
+                  <span className="text-xs font-medium text-muted-foreground">
+                    {inn.battingTeam?.title ? inn.battingTeam.title : `Team #${inn.battingTeamId}`}
+                  </span>
                 </div>
                 <div className="text-xs text-muted-foreground space-y-1">
-                  <div>Bowling Team: <span className="font-semibold text-foreground">#{inn.bowlingTeamId}</span></div>
+                  <div>
+                    Bowling Team:{" "}
+                    <span className="font-semibold text-foreground">
+                      {inn.bowlingTeam?.title ? inn.bowlingTeam.title : `#${inn.bowlingTeamId}`}
+                    </span>
+                  </div>
                 </div>
               </div>
             ))}

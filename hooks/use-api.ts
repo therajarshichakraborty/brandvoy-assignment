@@ -38,14 +38,26 @@ export interface Player {
 }
 
 export interface Match {
-  matchId: string | number;
+  id?: string | number;
+  matchId?: string | number;
   title?: string;
+  subtitle?: string;
+  matchNumber?: string;
+  dateStart?: string;
+  dateEnd?: string;
   date?: string;
   venue?: string;
   result?: string;
-  tossWinner?: string;
+  tossWinnerId?: number;
+  tossWinner?: string | Team | null;
   tossDecision?: string;
+  statusStr?: string;
+  statusNote?: string;
+  teamA?: Team | null;
+  teamB?: Team | null;
+  winner?: Team | null;
   innings?: Innings[];
+  inningsList?: Innings[];
 }
 
 export interface Innings {
@@ -53,6 +65,8 @@ export interface Innings {
   inningsNumber: number;
   battingTeamId: number;
   bowlingTeamId: number;
+  battingTeam?: { title?: string };
+  bowlingTeam?: { title?: string };
 }
 
 export interface BattingLeader {
