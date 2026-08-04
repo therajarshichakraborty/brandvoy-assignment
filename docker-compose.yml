@@ -20,7 +20,7 @@ services:
   app:
     build:
       context: .
-      dockerfile: DockerFile
+      dockerfile: Dockerfile
     container_name: ipl-pulse-app
     restart: unless-stopped
     ports:

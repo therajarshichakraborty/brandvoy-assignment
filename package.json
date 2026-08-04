@@ -7,7 +7,7 @@
     "dev": "next dev -p 4040 --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint",
+    "lint": "next lint",
     "format": "prettier --write .",
     "typecheck": "tsc --noEmit",
     "test": "bun test",
