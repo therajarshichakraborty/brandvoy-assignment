@@ -16,7 +16,7 @@ export async function GET(request: NextRequest) {
     if (!parsed.success) {
       return errorResponse("Invalid pagination parameters", "INVALID_INPUT", 400);
     }
-
+    
     const { page, limit } = parsed.data;
     const offset = (page - 1) * limit;
 
