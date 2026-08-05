@@ -17,7 +17,6 @@ export interface ApiResponse<T> {
   refetch: () => void;
 }
 
-// ── Domain interfaces ────────────────────────────────────────────────────────
 
 export interface Team {
   tid: string | number;
@@ -60,13 +59,38 @@ export interface Match {
   inningsList?: Innings[];
 }
 
+export interface BattingStat {
+  id?: number;
+  playerId: number;
+  runs: number;
+  balls: number;
+  fours: number;
+  sixes: number;
+  strikeRate?: string | number;
+  howOut?: string;
+  player?: Player;
+}
+
+export interface BowlingStat {
+  id?: number;
+  playerId: number;
+  overs: string | number;
+  runsConceded: number;
+  wickets: number;
+  economy?: string | number;
+  maidens: number;
+  player?: Player;
+}
+
 export interface Innings {
   id?: string | number;
   inningsNumber: number;
   battingTeamId: number;
   bowlingTeamId: number;
-  battingTeam?: { title?: string };
-  bowlingTeam?: { title?: string };
+  battingTeam?: { title?: string; abbr?: string };
+  bowlingTeam?: { title?: string; abbr?: string };
+  battingStatsList?: BattingStat[];
+  bowlingStatsList?: BowlingStat[];
 }
 
 export interface BattingLeader {
@@ -129,7 +153,6 @@ export interface PlayerDetail {
   };
 }
 
-// ── Generic fetch hook ───────────────────────────────────────────────────────
 
 export function useFetch<T>(url: string | null): ApiResponse<T> {
   const [data, setData] = useState<T | null>(null);
@@ -169,7 +192,6 @@ export function useFetch<T>(url: string | null): ApiResponse<T> {
   return { data, meta, loading, error, refetch: fetchData };
 }
 
-// ── Teams Hooks ──────────────────────────────────────────────────────────────
 
 export function useTeams(page = 1, limit = 20, search = "") {
   const params = new URLSearchParams();
@@ -183,7 +205,6 @@ export function useTeamDetail(id: string) {
   return useFetch<Team>(`/api/teams/${id}`);
 }
 
-// ── Players Hooks ────────────────────────────────────────────────────────────
 
 export function usePlayers(options: { page?: number; limit?: number; search?: string; role?: string; country?: string; teamId?: string } = {}) {
   const { page = 1, limit = 20, search = "", role = "", country = "", teamId = "" } = options;
@@ -201,8 +222,6 @@ export function usePlayerDetail(id: string) {
   return useFetch<PlayerDetail>(`/api/players/${id}`);
 }
 
-// ── Matches Hooks ────────────────────────────────────────────────────────────
-
 export function useMatches(options: { page?: number; limit?: number; teamId?: string; startDate?: string; endDate?: string } = {}) {
   const { page = 1, limit = 20, teamId = "", startDate = "", endDate = "" } = options;
   const params = new URLSearchParams();
@@ -217,8 +236,6 @@ export function useMatches(options: { page?: number; limit?: number; teamId?: st
 export function useMatchDetail(id: string) {
   return useFetch<Match>(`/api/matches/${id}`);
 }
-
-// ── Leaderboard Hooks ────────────────────────────────────────────────────────
 
 export function useBattingLeaders(metric: string = "runs", limit = 10, page = 1) {
   const params = new URLSearchParams();

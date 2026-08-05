@@ -1,0 +1,24 @@
+# Datadog Agent Configuration for IPL Data Platform
+datadog:
+  apiKey: "<DATADOG_API_KEY>"
+  appKey: "<DATADOG_APP_KEY>"
+  site: "datadoghq.com"
+  tags:
+    - "env:production"
+    - "service:ipl-data-platform"
+
+logs:
+  enabled: true
+  containerCollectAll: true
+
+apm:
+  enabled: true
+  port: 8126
+
+metrics:
+  enabled: true
+  customMetrics:
+    - name: "ipl.api.requests"
+      type: "count"
+    - name: "ipl.api.latency"
+      type: "histogram"
