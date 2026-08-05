@@ -43,3 +43,13 @@ progress.md
 docs/
 todo.md
 architecture.md
+
+# Infrastructure & Cloud Stretch Goals
+/terraform/
+/.terraform/
+*.tfstate
+*.tfstate.*
+/k8s/
+/helm/
+/datadog/
+
