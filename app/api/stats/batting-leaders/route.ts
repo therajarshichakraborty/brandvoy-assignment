@@ -41,6 +41,7 @@ import { successResponse, errorResponse } from "@/lib/api-response";
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
+
     const parsed = battingLeadersQuerySchema.safeParse({
       page: searchParams.get("page") ?? undefined,
       limit: searchParams.get("limit") ?? undefined,
@@ -57,6 +58,7 @@ export async function GET(request: NextRequest) {
     const totalCountQuery = await db
       .select({ value: count(sql`DISTINCT ${battingInningsStats.playerId}`) })
       .from(battingInningsStats);
+
     const total = Number(totalCountQuery[0]?.value ?? 0);
 
     const totalRunsCol = sum(battingInningsStats.runs);
@@ -66,10 +68,13 @@ export async function GET(request: NextRequest) {
     const inningsCountCol = count(battingInningsStats.id);
 
     const dismissalsExpr = sql<number>`SUM(CASE WHEN LOWER(COALESCE(${battingInningsStats.howOut}, '')) LIKE '%not out%' OR LOWER(COALESCE(${battingInningsStats.howOut}, '')) LIKE '%batting%' THEN 0 ELSE 1 END)`;
+
     const averageCol = sql<number>`CASE WHEN ${dismissalsExpr} > 0 THEN SUM(${battingInningsStats.runs})::float / ${dismissalsExpr} ELSE SUM(${battingInningsStats.runs})::float END`;
+
     const strikeRateCol = sql<number>`CASE WHEN SUM(${battingInningsStats.balls}) > 0 THEN (SUM(${battingInningsStats.runs})::float / SUM(${battingInningsStats.balls})) * 100 ELSE 0 END`;
 
     let orderByCol = desc(totalRunsCol);
+    
     if (metric === "average") {
       orderByCol = desc(averageCol);
     } else if (metric === "strikeRate") {

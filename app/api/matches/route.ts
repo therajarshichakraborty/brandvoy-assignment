@@ -65,6 +65,7 @@ export async function GET(request: NextRequest) {
     const offset = (page - 1) * limit;
 
     const conditions: SQL[] = [];
+
     if (teamId) {
       conditions.push(or(eq(matches.teamAId, teamId), eq(matches.teamBId, teamId))!);
     }
@@ -81,6 +82,7 @@ export async function GET(request: NextRequest) {
       .select({ value: count() })
       .from(matches)
       .where(whereClause);
+      
     const total = totalCountResult[0]?.value ?? 0;
 
     const matchList = await db
